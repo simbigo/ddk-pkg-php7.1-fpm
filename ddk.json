@@ -1,0 +1,20 @@
+{
+    "build": "${PACKAGE_PATH}",
+    "container_name": "php71-fpm.ddk",
+    "command": "map-user.sh",
+    "env_file": [
+        "${PACKAGE_PATH}/env/user.env"
+    ],
+    "volumes": [
+        "${PACKAGE_PATH}/storage/usr/local/etc/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro",
+        "${PACKAGE_PATH}/storage/usr/local/etc/php/php.ini:/usr/local/etc/php/php.ini:ro",
+        "${SHARE_PATH}/home/ddk:/home/ddk",
+        "${SHARE_PATH}/var/www:/var/www"
+    ],
+    "ddk-post-install": [
+        "mkdir -p ${PACKAGE_PATH}/env",
+        "echo USER_NAME=`whoami` > ${PACKAGE_PATH}/env/user.env",
+        "echo USER_ID=`id -u` >> ${PACKAGE_PATH}/env/user.env",
+        "echo GROUP_ID=`id -g` >> ${PACKAGE_PATH}/env/user.env"
+    ]
+}
